@@ -47,12 +47,15 @@ PrintOK "apt package install" $?
 
 mkdir -p $PHP_INI_DIR/conf.d
 
-curl -SL --silent -f -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+# curl -SL --silent -f -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 rm -f /dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 PrintOK "Dockerize install" $?
 
-curl  -SL --silent -f "http://jp2.php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror" -o php.tar.bz2
+# curl  -SL --silent -f "http://jp2.php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror" -o php.tar.bz2
+
+mv php-$PHP_VERSION.tar.bz2 php.tar.bz2
 PrintOK "Download $PHP_VERSION.tar.bz2 " $?
 
 # curl  -SL --silent -f "http://jp2.php.net/get/php-$PHP_VERSION.tar.bz2.asc/from/this/mirror" -o php.tar.bz2.asc

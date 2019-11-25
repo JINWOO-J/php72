@@ -3,7 +3,7 @@ REPO_HUB = jinwoo
 NAME = php72
 VERSION = 7.2.25
 TAGNAME = $(VERSION)-xdebug
-DEBUG_BUILD = yes
+DEBUG_BUILD = no
 #include ENVAR
 
 

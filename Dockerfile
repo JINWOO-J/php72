@@ -15,7 +15,7 @@ RUN echo $TZ > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata && \
     apt-get clean > /dev/null
 
-ENV DOCKERIZE_VERSION v0.4.0
+ENV DOCKERIZE_VERSION v0.6.1
 ARG PHP_VERSION
 ENV PHP_VERSION $PHP_VERSION
 ARG DEBUG_BUILD
@@ -31,6 +31,7 @@ ENV NORMAL "\\\033[0;39m"
 ENV BLUE "\\\033[1;34m"
 ENV USERID 24988
 
+ADD src/* /usr/src/php/
 ENV PHP_INI_DIR /etc/php
 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data \
