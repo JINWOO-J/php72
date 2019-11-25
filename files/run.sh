@@ -34,7 +34,13 @@ export PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:-"30M"}
 export PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE:-"30M"}
 export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-"128M"}
 export PHP_SLOWLOG_TIMEOUT=${PHP_SLOWLOG_TIMEOUT:-"0"}
-
+export PHP_OPCACHE_ENABLE=${PHP_OPCACHE_ENABLE-"Off"}
+export PHP_OPCACHE_MEMORY_CONSUMPTION=${PHP_OPCACHE_MEMORY_CONSUMPTION:-256}
+export PHP_OPCACHE_MAX_ACCELERATED_FILES=${PHP_OPCACHE_MAX_ACCELERATED_FILES:-12000}
+export PHP_OPCACHE_MAX_WASTED_PERCENTAGE=${PHP_OPCACHE_MAX_WASTED_PERCENTAGE:-10}
+export PHP_OPCACHE_INTERNED_STRINGS_BUFFER=${PHP_OPCACHE_INTERNED_STRINGS_BUFFER:-16}
+export PHP_OPCACHE_VALIDATE_TIMESTAMPS=${PHP_OPCACHE_VALIDATE_TIMESTAMPS:-1}
+export PHP_OPCACHE_REVALIDATE_FREQ=${PHP_OPCACHE_REVALIDATE_FREQ:60}
 export PHP_SO_DISABLES=${PHP_SO_DISABLES:-""}
 
 export PHP_INI_EXTRA=${PHP_INI_EXTRA:-""}
@@ -72,6 +78,22 @@ fi
 if [ ! -z "$TZ" ] ; then
     sed -i -e "s~.*date.timezone.*~date.timezone = ${TZ}~g" ${PHP_INI_DIR}/php.ini
 fi
+
+
+if [ "$PHP_OPCACHE_ENABLE" == "On" ]; then
+    OPCACHE_CONF=${PHP_INI_DIR}/conf.d/opcache.ini
+    echo "zend_extension=opcache.so" > $OPCACHE_CONF
+    echo "opcache.enable=On" >> $OPCACHE_CONF
+    echo "opcache.validate_timestamps=0" >> $OPCACHE_CONF
+    echo "opcache.memory_consumption      = $PHP_OPCACHE_MEMORY_CONSUMPTION"  >> $OPCACHE_CONF ### 캐시 메모리 크기
+    echo "opcache.max_accelerated_files   = ${PHP_OPCACHE_MAX_ACCELERATED_FILES}" >> $OPCACHE_CONF ## 파일 키 갯수
+    echo "opcache.max_wasted_percentage   = $PHP_OPCACHE_MAX_WASTED_PERCENTAGE " >> $OPCACHE_CONF  #만료된 캐시 저장 공간 비율
+    echo "opcache.interned_strings_buffer = $PHP_OPCACHE_INTERNED_STRINGS_BUFFER" >> $OPCACHE_CONF #문자열 버퍼 크기 (MB)
+    echo "opcache.validate_timestamps     = $PHP_OPCACHE_VALIDATE_TIMESTAMPS " >> $OPCACHE_CONF # 파일과 캐시 변경점 체크 여부 (0=off, 1=on)
+    echo "opcache.revalidate_freq         = $PHP_OPCACHE_REVALIDATE_FREQ" >> $OPCACHE_CONF # 변경점 체크 시간 (초)
+
+fi
+
 
 
 if [ "$XDEBUG_REMOTE_ENABLE" == 1 ]; then
