@@ -31,7 +31,7 @@ ENV NORMAL "\\\033[0;39m"
 ENV BLUE "\\\033[1;34m"
 ENV USERID 24988
 
-ADD src/* /usr/src/php/
+COPY src/* /usr/src/php/
 ENV PHP_INI_DIR /etc/php
 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data \
