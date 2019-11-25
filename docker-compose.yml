@@ -1,0 +1,48 @@
+nginx_php:
+    image: jinwoo/nginx_php7:7.0.12
+  #command: bash -c "while [ 0 ]; do sleep 1;done"
+    volumes:
+#      - ./www:/var/www/
+      - ./logs:/var/log/nginx
+      - /etc/localtime:/etc/localtime:ro
+    volumes_from:
+      - blue_www_src
+      - green_www_src
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      FPM_USER: "www-data"
+      FPM_GROUP: "www-data"
+      FPM_LISTEN: "0.0.0.0:9000"
+      USE_DOCKERIZE: "yes"
+      UPSTREAM: "localhost:9000"
+      DOMAIN: "wwwdev.penpi.kr mdev.penpi.kr apidev.penpi.kr admindev.penpi.kr partnerdev.penpi.kr"
+      WEBROOT: "/var/www/public/"
+      LOCATION: |
+                location = /favicon.ico { access_log off; log_not_found off; }
+                location = /robots.txt  { access_log off; log_not_found off; }
+                location ~* ^.+\.(jpeg|jpg|gif|png|bmp|ico|css|js|pdf|txt|doc|xls|xml|rtf|ppt|swf|exe|bar|apk|ipa|tar|tgz|gz|bz2|zip|rar|flv|avi|mp3|mpeg|mid|midi|wav)$$ {
+                        expires 30d;
+                        add_header Pragma public;
+                        add_header Cache-Control "public, mustrevalidate, proxy-revalidate";
+                        access_log off;
+                        break;
+                }
+    # LOCATION: 'location ~* \.(?:css|js|ico|woff|eot|svg|ttf|otf|woff2) {
+    #              access_log off;
+    #              add_header Cache-Control public;
+    #            }'
+
+
+#     EXTRACONF: 'env[PROJECT_NAME] = skeleton
+#                               env[STAGE_NAME] = local'
+blue_www_src:
+    image: www_blue_public:0.2
+    volumes:
+        - /var/www/blue_public
+
+green_www_src:
+    image: www_green_public:0.2
+    volumes:
+        - /var/www/green_public

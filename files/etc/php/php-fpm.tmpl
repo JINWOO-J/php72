@@ -1,0 +1,61 @@
+[app]
+listen =  {{ .Env.FPM_LISTEN }}
+{{ if eq .Env.USE_FPM_SOCKET "yes" }}
+listen=/dev/shm/php-fpm.sock
+{{ end }}
+user = {{ .Env.FPM_USER }}
+group = {{ .Env.FPM_GROUP }}
+pm = ondemand
+pm.max_children = 10
+pm.process_idle_timeout = 60
+pm.max_requests = 500
+
+;listen.mode = 0666
+request_terminate_timeout = {{ .Env.REQUEST_TERMINATE_TIMEOUT }}
+
+{{ if eq .Env.PHP_ACCESS_LOG "yes" }}
+{{ if eq .Env.PHP_LOG_OUTPUT "stdout" }}
+access.log = /dev/stdout
+slowlog = /dev/stdout;
+{{ else if eq  .Env.PHP_LOG_OUTPUT "file"}}
+access.log = /var/log/nginx/php-fpm-access.log;
+slowlog = /var/log/nginx/php-fpm-slow.log;
+{{ end }}
+{{ if gt (atoi .Env.PHP_SLOWLOG_TIMEOUT)  0 }}
+request_slowlog_timeout = {{ .Env.PHP_SLOWLOG_TIMEOUT }}s
+{{ end }}
+{{ end }}
+
+
+{{ if eq .Env.PHP_LOG_FORMAT "json" }}
+access.format = '{"type" : "php", "mode": "access", "fields": {"ip": "%R", "remote_user": "%u", "request": "%t", "request_method": "%m", "request_uri": "%{REQUEST_URI}e", "qs": "%Q", "query_string": "%q", "status": "%s", "filename": "%f", "request_time": "%{seconds}d", "peak_memory": "%{mega}MM", "used_cpu" : "%C%%"}}'
+{{ else }}
+access.format = %R - %u %t "%m %{REQUEST_URI}e %Q%q" %s %f %{seconds}d %{mega}MM %C%%
+{{ end }}
+{{ if gt (len .Env.FPM_STATUS_PATH) 2 }}
+pm.status_path = {{ .Env.FPM_STATUS_PATH }}
+{{ end }}
+
+clear_env={{ if eq .Env.CLEAR_ENV "yes" }} yes {{ else }} no {{ end }}
+
+php_admin_value[error_log] = /var/log/nginx/fpm-php-error.log
+;php_admin_value[memory_limit] = 128M
+
+php_value[session.save_handler] = files
+php_value[session.save_path] = /var/lib/php/session
+
+;pm = dynamic
+;pm.max_children = 50
+;pm.start_servers = 5
+;pm.min_spare_servers = 5
+;pm.max_spare_servers = 35
+;pm.max_requests = 500
+;ping.path = /ping
+
+catch_workers_output = yes
+security.limit_extensions = .php
+php_flag[display_errors] = {{ if eq .Env.DEBUG "yes" }} on {{ else }} off {{ end }}
+php_admin_flag[log_errors] = {{ if eq .Env.DEBUG "yes" }} on {{ else }} off {{ end }}
+
+
+{{ .Env.PHP_EXTRACONF }}

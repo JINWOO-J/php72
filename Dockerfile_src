@@ -1,0 +1,11 @@
+FROM busybox:latest
+ARG SUBDIR=SUBDIR
+ARG VER=VER
+ENV VER ${VER}
+ENV SUBDIR ${SUBDIR}
+RUN mkdir -p /var/www/
+ADD ./import/${PRODUCT} /var/www/${SUBDIR}
+ENV TZ KST-9
+RUN [ "sh", "-c", "touch /var/www/${SUBDIR}/$(date '+%Y-%m-%d_%H:%M:%S')_v${VER}" ]
+
+VOLUME /var/www/${SUBDIR}
