@@ -97,26 +97,26 @@ if [ "${PHALCON_INSTALL}" = "enable" ] ; \
 fi
 
 mkdir -p /usr/src/pecl && cd /usr/src/pecl
-curl -SL --silent -f -O https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz
-PrintOK "Download  libmemcached-1.0.18.tar.gz " $?
-tar xzf libmemcached-1.0.18.tar.gz
-cd libmemcached-1.0.18
-./configure --enable-sasl  >/dev/null
-PrintOK "./configure " $?
-make -j"$(nproc)" -s > /dev/null 2>&1
-PrintOK "make " $?
-make install -s > /dev/null
-PrintOK "make install" $?
+# curl -SL --silent -f -O https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz
+# PrintOK "Download  libmemcached-1.0.18.tar.gz " $?
+# tar xzf libmemcached-1.0.18.tar.gz
+# cd libmemcached-1.0.18
+# ./configure --enable-sasl  >/dev/null
+# PrintOK "./configure " $?
+# make -j"$(nproc)" -s > /dev/null 2>&1
+# PrintOK "make " $?
+# make install -s > /dev/null
+# PrintOK "make install" $?
 
-curl -SL --silent -f -O http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq4_0.7.1-1_amd64.deb
-dpkg -i librabbitmq4_0.7.1-1_amd64.deb
-PrintOK "Install librabbitmq4_0.7.1-1_amd64 " $?
+# curl -SL --silent -f -O http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq4_0.7.1-1_amd64.deb
+# dpkg -i librabbitmq4_0.7.1-1_amd64.deb
+# PrintOK "Install librabbitmq4_0.7.1-1_amd64 " $?
 
-curl -SL --silent -f -O http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq-dev_0.7.1-1_amd64.deb
-dpkg -i librabbitmq-dev_0.7.1-1_amd64.deb
-PrintOK "Install librabbitmq-dev_0.7.1-1_amd64 " $?
+# curl -SL --silent -f -O http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq-dev_0.7.1-1_amd64.deb
+# dpkg -i librabbitmq-dev_0.7.1-1_amd64.deb
+# PrintOK "Install librabbitmq-dev_0.7.1-1_amd64 " $?
 
-rm -rf *.deb libmemcached-1.0.18*
+# rm -rf *.deb libmemcached-1.0.18*
 /usr/local/bin/docker-pecl-install ${PHP_LIB}
 
 
