@@ -42,7 +42,7 @@ export PHP_OPCACHE_INTERNED_STRINGS_BUFFER=${PHP_OPCACHE_INTERNED_STRINGS_BUFFER
 export PHP_OPCACHE_VALIDATE_TIMESTAMPS=${PHP_OPCACHE_VALIDATE_TIMESTAMPS:-1}
 export PHP_OPCACHE_REVALIDATE_FREQ=${PHP_OPCACHE_REVALIDATE_FREQ:-60}
 export PHP_SO_DISABLES=${PHP_SO_DISABLES:-""}
-
+export PHP_DISABLE_FUNCTIONS=${PHP_DISABLE_FUNCTIONS:-""}
 export PHP_INI_EXTRA=${PHP_INI_EXTRA:-""}
 
 for module in $PHP_SO_DISABLES
@@ -108,6 +108,9 @@ if [ "$XDEBUG_REMOTE_ENABLE" == 1 ]; then
 
 fi
 
+if [ "x${PHP_DISABLE_FUNCTIONS}" != "x" ];then
+    sed -i -e "s/.*disable_functions\s*=\s*.*/disable_functions = ${PHP_DISABLE_FUNCTIONS}/g" ${PHP_INI_DIR}/php.ini
+fi
 
 if [ "$STAGE_NAME" == "production" ] ; then
     sed -i -e "s/.*error_reporting\s*=\s*.*/error_reporting = E_ALL/g" ${PHP_INI_DIR}/php.ini
