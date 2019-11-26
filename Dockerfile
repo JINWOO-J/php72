@@ -134,76 +134,10 @@ RUN userdel www-data && groupadd -r www-data -g ${USERID} && \
     chmod 700 /home/www-data && \
     chmod 711 /var/www
 
-#COPY files /
-#
 
 ENV PHP71_KEY "A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E"
 ENV PHP7_KEY "1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3"
 ENV PHP5_KEY "6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 0BD78B5F97500D450838F95DFE857D9A90D90EC1"
-
-
-#
-# RUN apt-get update && apt-get install -y \
-#         $PHP_BUILD_DEPS $PHP_BUILD_DEPS_EXTRA \
-#         --no-install-recommends  \
-#     && apt-add-repository ppa:pinepain/libv8-5.2 -y \
-# 	&& apt-get update \
-# 	&& apt-get install libv8-5.2-dev -y --allow-unauthenticated \
-#     && rm -r /var/lib/apt/lists/* \
-#     && gpg --keyserver pool.sks-keyservers.net --recv-keys $PHP7_KEY \
-# 	&& mkdir -p $PHP_INI_DIR/conf.d \
-# 	&& set -x \
-#     && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-#     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-#     && rm -f /dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-	# && curl -SL "http://kr1.php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror" -o php.tar.bz2 \
-	# && curl -SL "http://kr1.php.net/get/php-$PHP_VERSION.tar.bz2.asc/from/this/mirror" -o php.tar.bz2.asc \
-# 	&& gpg --verify php.tar.bz2.asc \
-# 	&& mkdir -p /usr/src/php \
-# 	&& tar -xof php.tar.bz2 -C /usr/src/php --strip-components=1 \
-# 	&& rm php.tar.bz2* \
-# 	&& cd /usr/src/php \
-# 	&& ./configure \
-#     	--sysconfdir="$PHP_INI_DIR" \
-# 		--with-config-file-path="$PHP_INI_DIR" \
-# 		--with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
-# 		$PHP_EXTRA_CONFIGURE_ARGS  >/dev/null \
-# 	&& make -j"$(nproc)" -s >/dev/null \
-# 	&& make install \
-# 	&& { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
-# 	&& make clean \
-#     && cp /usr/src/php/php.ini-production ${PHP_INI_DIR}/php.ini \
-#     && sed -i 's/short_open_tag = Off/short_open_tag = On/g' ${PHP_INI_DIR}/php.ini \
-#     && if [ "${PHALCON_INSTALL}" = "enable" ] ; \
-#         then echo "${RED}INSTALL PHALCON${NOMAL}" \
-#         && mkdir -p /usr/src/pecl && cd /usr/src/pecl  \
-#     	&& wget https://github.com/phalcon/cphalcon/archive/v${PHALCON_VER}.tar.gz  \
-#     	&& tar zxf v${PHALCON_VER}.tar.gz && cd /usr/src/pecl/cphalcon-${PHALCON_VER}/build \
-#     	&& ./install \
-#         && echo "extension=phalcon.so" > $PHP_INI_DIR/conf.d/phalcon.ini \
-#         ; else echo "${RED}PASS PHALCON${NOMAL}"; fi  \
-#     && mkdir -p /usr/src/pecl && cd /usr/src/pecl  \
-#    	&& wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz \
-#    	&& tar xzf libmemcached-1.0.18.tar.gz \
-#    	&& cd libmemcached-1.0.18 \
-#    	&& ./configure --enable-sasl  >/dev/null \
-#    	&& make -j"$(nproc)" -s >/dev/null\
-#    	&& make install \
-#     && wget http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq4_0.7.1-1_amd64.deb \
-#    	&& dpkg -i librabbitmq4_0.7.1-1_amd64.deb \
-#    	&& wget http://nz.archive.ubuntu.com/ubuntu/pool/universe/libr/librabbitmq/librabbitmq-dev_0.7.1-1_amd64.deb \
-#    	&& dpkg -i librabbitmq-dev_0.7.1-1_amd64.deb \
-#    	&& rm -rf *.deb libmemcached-1.0.18* \
-#     && /usr/local/bin/docker-pecl-install ${PHP_LIB} \
-#     && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-#     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-#     && rm -f dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-#     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $PHP_BUILD_DEPS_EXTRA \
-#     && rm -rf /usr/src/*
-
-#RUN cp /usr/src/php/php.ini-production ${PHP_INI_DIR}/php.ini
-#RUN sh -c "echo 'date.timezone = asia/seoul' >> ${PHP_INI_DIR}/php.ini"
-#RUN sed -i 's/short_open_tag = Off/short_open_tag = On/g' ${PHP_INI_DIR}/php.ini
 
 
 RUN echo 'export PS1=" \[\e[00;32m\]php-${PHP_VERSION}\[\e[0m\]\[\e[00;37m\]@\[\e[0m\]\[\e[00;31m\]\H :\\$\[\e[0m\] "' >> /root/.bashrc

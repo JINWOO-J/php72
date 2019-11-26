@@ -127,10 +127,10 @@ wget --no-check-certificate https://phar.phpunit.de/phpunit.phar && chmod +x php
 composer global require hirak/prestissimo
 
 
+rm -r /var/lib/apt/lists/*
+rm -rf /usr/src/php
+rm -rf /usr/src/pecl
 if [ $DEBUG_BUILD == "no" ];
 then
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $PHP_BUILD_DEPS_EXTRA > /dev/null
-    rm -r /var/lib/apt/lists/*
-    rm -rf /usr/src/php
-    rm -rf /usr/src/pecl
+    # apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $PHP_BUILD_DEPS_EXTRA > /dev/null    
 fi
