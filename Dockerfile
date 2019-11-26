@@ -100,7 +100,7 @@ ENV PHP_BUILD_DEPS bzip2 \
         libpng-dev\
 		libreadline6-dev \
 		libssl-dev \
-		libxslt1-dev \
+        libxslt-dev \
         libxml2 \
         wget \
         libc-dev \
