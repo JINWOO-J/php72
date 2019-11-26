@@ -22,7 +22,7 @@ ARG DEBUG_BUILD
 ENV DEBUG_BUILD $DEBUG_BUILD
 RUN echo "PHP version = ${PHP_VERSION}"
 # ENV PHP_LIB redis-3.1.2 yaml-2.0.0RC8 amqp-1.9.0 memcached-3.1.4 apcu-5.1.18 xdebug-2.8.0
-ENV PHP_LIB xdebug-2.8.0
+ENV PHP_LIB xdebug-2.8.0 apcu
 ENV PHALCON_INSTALL "disable"
 ENV PHALCON_VER 3.0.0
 
