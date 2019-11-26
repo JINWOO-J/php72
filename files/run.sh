@@ -84,7 +84,6 @@ if [ "$PHP_OPCACHE_ENABLE" == "On" ]; then
     OPCACHE_CONF=${PHP_INI_DIR}/conf.d/opcache.ini
     echo "zend_extension=opcache.so" > $OPCACHE_CONF
     echo "opcache.enable=On" >> $OPCACHE_CONF
-    echo "opcache.validate_timestamps=0" >> $OPCACHE_CONF
     echo "opcache.memory_consumption      = $PHP_OPCACHE_MEMORY_CONSUMPTION"  >> $OPCACHE_CONF ### 캐시 메모리 크기
     echo "opcache.max_accelerated_files   = ${PHP_OPCACHE_MAX_ACCELERATED_FILES}" >> $OPCACHE_CONF ## 파일 키 갯수
     echo "opcache.max_wasted_percentage   = $PHP_OPCACHE_MAX_WASTED_PERCENTAGE " >> $OPCACHE_CONF  #만료된 캐시 저장 공간 비율
