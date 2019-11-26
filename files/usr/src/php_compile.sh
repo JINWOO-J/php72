@@ -119,6 +119,13 @@ mkdir -p /usr/src/pecl && cd /usr/src/pecl
 # rm -rf *.deb libmemcached-1.0.18*
 /usr/local/bin/docker-pecl-install ${PHP_LIB}
 
+# Install composer
+wget --no-check-certificate http://getcomposer.org/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
+# Install PHPUnit
+wget --no-check-certificate https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /usr/local/bin/phpunit
+
+composer global require hirak/prestissimo
+
 
 if [ $DEBUG_BUILD == "no" ];
 then

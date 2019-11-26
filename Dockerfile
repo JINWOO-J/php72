@@ -213,12 +213,7 @@ COPY files /
 
 RUN "/usr/src/php_compile.sh"
 
-# Install composer
-RUN bash -c "wget --no-check-certificate http://getcomposer.org/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer"
-# Install PHPUnit
-RUN bash -c "wget --no-check-certificate https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /usr/local/bin/phpunit"
 
-RUN bash -c "composer global require hirak/prestissimo"
 
 #RUN bash -c "git clone https://github.com/rlerdorf/php-memcached" && cd php-memcached && phpize &&./configure && make && make install
 
